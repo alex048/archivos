@@ -118,3 +118,20 @@ public interface ApiInterface {
 
 }
 
+    @Expose
+    @SerializedName("id") private int id;
+    @Expose
+    @SerializedName("title") private String title;
+    @Expose
+    @SerializedName("note") private String note;
+    @Expose
+    @SerializedName("color") private int color;
+    @Expose
+    @SerializedName("date") private String date;
+    @Expose
+    @SerializedName("success") private Boolean success;
+    @Expose
+    @SerializedName("message") private String message;
+
+
+
