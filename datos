@@ -1,0 +1,62 @@
+Paquetes spnet
+install-package Microsoft.EntityFrameworkCore.SqlServer
+install-package Microsoft.EntityFrameworkCore.Tools
+install-package Microsoft.EntityFrameworkCore.SqlServer.Design
+
+Add-migration InitialCreate -o Data/Migrations
+--------------
+appsettingd
+"ConnectionStrings":{
+//direccion de la conecion con la base de datso
+	"DefaultConnection":""
+}
+
+Crear el directerop modelo
+y la clase
+crear directorio data
+ y la clase HealthContext
+ public HealthContext(DbContextOptions options) : base(options) { }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
+
+        public DbSet<City> Cities { get; set; }
+
+--Dummydata
+ public static void Initialize(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<HealthContext>();
+                context.Database.EnsureCreated();
+                //context.Database.Migrate();
+
+                // Look for any ailments
+                if (context.Cities != null && context.Cities.Any())
+                    return;   // DB has already been seeded
+
+                var cities = GetAilments().ToArray();
+                context.Cities.AddRange(cities);
+                context.SaveChanges();
+
+               
+            }
+        }
+
+        public static List<City> GetAilments()
+        {
+            List<City> cities = new List<City>() {
+                new City {Descripcion="clima calido",Pais="PERU", Fecha="12/11/2019",Hora="16:15"},
+                new City {Descripcion="clima calido",Pais="COLOMBIA", Fecha="02/11/2019",Hora="11:15"},
+                new City {Descripcion="clima calido",Pais="ECUADOR", Fecha="10/11/2019",Hora="07:15"},
+                new City {Descripcion="clima calido",Pais="BRASIL", Fecha="20/11/2019",Hora="10:15"}
+            };
+            return cities;
+        }
+//,odificar la clase starup
+services.AddDbContext<HealthContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+         
+en la funcion Configure
+agregar el domi data  y inicialisar  
