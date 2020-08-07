@@ -140,4 +140,11 @@ implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
 implementation 'com.thebluealliance:spectrum:0.7.1'
 colors.xml
 
+APP_PORT=3000
+DB_PORT=3308
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=
+MYSQL_DB=fitnnes_club_db
 
+JWT_KEY=qwe1234
